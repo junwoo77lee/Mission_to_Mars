@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Welcome to Mars</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  </head>
+
+  <body>
+    <div class="container">
+        <nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-primary">
+             <a class="navbar-brand" href="/">MARS</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">About Mars</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#news">News</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#featuredimage">Featured Image</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#weather">Weather</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#hemispheres">Hemispheres</a>
+                    </li>
+                </ul>
+
+                <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
+
+            </div>
+        </nav>
+    
+        <div class="container">
+            <div class="jumbotron" style="text-align: center; padding-top: 3em; padding-bottom: 3em;">
+                <h1 class="display-2"><strong>Welcome to Mars</strong></h1>
+                <p class='lead'>Wanna update with the latest information about Mars? Click the 'Scrape'!</p>
+                <a class="btn btn-primary btn-lg" href="/scrape" role="button">Scrape</a>
+            </div>
+        </div>
+
+    
+
+        <div class="container">
+            <h2 id="about">About Mars
+                <small class="text-muted" style="font-size: 16px;"><em>(This might not be updated for a while...)</em></small>
+                <!-- <h6 style="color: grey"><em>(This might not be updated for a while...)</em></h6> -->
+            </h2>
+            <hr>
+            <div class="row">            
+                <div class="col-6">
+                    <h3>Facts</h3>
+                    <table class="table">
+                        {% for fact in facts %}
+                        {{ fact|safe }}
+                        {% endfor %}
+                    </table>
+                </div>
+                <div class="col-6">                
+                    <h3>Comparison to Earth</h3>
+                    <table class="table">
+                        {% for comp in mars_comp %}
+                        {{ comp|safe }}
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+
+            <hr>
+
+            <h2 id="news">Latest Mars News</h2>   
+            <div class="row">
+
+                {% set i = 0 %} <!-- the latest news initially -->    
+
+                <div class="col-3">        
+                    <img id="news_image" src="{{ mars.news[i].news_image }}" width=100% alt="News_image">            
+                </div>
+                
+                <div class="col-9">                
+                    <h3 id="news_title">{{ mars.news[i].title }}</h3>
+                    <h6 id="news_postdate" style="color: grey"> <em>Posted at: {{ mars.news[i].post_date }} </em></h6>
+                    <h5 id="news_paragraph">{{ mars.news[i].paragraph }}</h5>
+                    <a id="news_link" href={{ mars.news[i].news_link }} target='_blank'>News Link</a>
+                </div>
+            </div> <!-- news row -->
+
+            <button type="button" class="btn btn-primary mt-3" id="prev_news">Previous News</button>
+
+            <hr>
+    
+            <h2 id="featuredimage">Featured image</h2>
+            <div class="row">
+                <div class="col-8">
+                    <img src={{ mars.jpl.image_url }} width=100% alt="featured image on JPL">    
+                </div>
+                <div class="col-4">
+                    <blockquote class="blockquote">
+                        <p><em>{{ mars.jpl.description }}</em></p>
+                    </blockquote>
+                </div>                     
+            </div>
+
+            <hr>
+
+            <h2 id="weather">Mars Weather</h2>
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                    <div class="card-body">
+                        <blockquote class="blockquote">
+                        <p> {{ mars.tweeter.weather }} </p>
+                        <footer class="blockquote-footer"><cite title="Mars Tweeter"> Tweeted at {{ mars.tweeter.tweet_at }} </cite></footer>
+                        </blockquote>
+
+                        <img src={{ mars.tweeter.image }} width=100% alt="Tweeter Mars Weather">
+                    </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <h2 class="mt-3" id="hemispheres">Hemispheres</h2>
+            
+            <div class="row">
+                <div class="col-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <blockquote class="blockquote">
+                                <p><strong> {{ mars.hemispheres[0].title }} </strong></p>
+                                <img src={{ mars.hemispheres[0].img_url}} width=100% alt="Cerberus Hemisphere Enhanced">
+                            </blockquote>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <blockquote class="blockquote">
+                                <p><strong> {{ mars.hemispheres[1].title }} </strong></p>
+                                <img src={{ mars.hemispheres[1].img_url}} width=100% alt="Schiaparelli Hemisphere Enhanced">
+                            </blockquote>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <blockquote class="blockquote">
+                                <p><strong> {{ mars.hemispheres[2].title }} </strong></p>
+                                <img src={{ mars.hemispheres[2].img_url}} width=100% alt="Syrtis Major Hemisphere Enhanced">
+                            </blockquote>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <blockquote class="blockquote">
+                                <p><strong> {{ mars.hemispheres[3].title }} </strong></p>
+                                <img src={{ mars.hemispheres[3].img_url}} width=100% alt="Valles Marineris Hemisphere Enhanced">
+                            </blockquote>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div> <!-- container-->
+    </div>
+    
+    <!-- Optional JavaScript -->
+    <script>
+        const prevNews_button = document.querySelector('#prev_news');
+        const newsImage = document.querySelector('#news_image');
+        const newsTitle = document.querySelector('#news_title');
+        const newsPostdate = document.querySelector('#news_postdate');
+        const newsPara = document.querySelector('#news_paragraph');
+        const newsLink = document.querySelector('#news_link');
+
+        var news = {{ mars.news | tojson }};
+        let j = 1;
+
+        prevNews_button.addEventListener('click', onClick);
+
+        function onClick(e) {
+            newsImage.src = news[j].news_image
+            newsTitle.innerHTML = news[j].title
+            newsPostdate.innerHTML = "<em>Posted at: " + news[j].post_date + "</em>"
+            newsPara.innerHTML = news[j].paragraph
+            newsLink.href = news[j].news_link
+            j += 1;
+            };
+    </script>
+
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  </body>
+</html>
