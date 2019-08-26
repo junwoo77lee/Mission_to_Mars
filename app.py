@@ -18,7 +18,6 @@ def home():
                            facts=[mars_info.get('mars_facts')]
                            )
 
-
 # create route that run scrape function
 @app.route('/scrape')
 def scrape():
